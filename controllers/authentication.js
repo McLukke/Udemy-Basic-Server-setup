@@ -12,12 +12,21 @@ function tokenForUser(user) {
 	}, config.secret); // dont use email, changes over time
 }
 
+exports.signin = function(req, res, next) {
+	// User already had their email and password auth'd
+	// We just need to give them a token
+	
+	// need access to current user model!
+	// passport assigns model on request
+	res.send({ token: tokenForUser(req.user) });
+}
+
 exports.signup = function(req, res, next) {
 	// test with Postman to see the following work
 	// res.send({ success: 'true' });
 
 	// pull data out of request object
-	console.log(req.body);
+	// console.log(req.body);
 	const email = req.body.email;
 	const password = req.body.password;
 

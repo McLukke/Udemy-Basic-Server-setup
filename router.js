@@ -6,6 +6,7 @@ const passport = require('passport');
 // object to insert in middleware, the interceptor
 // use passport to authenticate, using jwt strategy, when authenticated, dont create a cookie-based session (this is a token based approach, dont need a cookie even tho this is the jwt default)
 const requireAuth = passport.authenticate('jwt', { session: false }); 
+const requireSignin = passport.authenticate('local', { session: false });
 
 module.exports = function(app) {
 	// app.get('/', function(req, res, next) {
@@ -17,5 +18,7 @@ module.exports = function(app) {
 		res.send({ hi: 'there' });
 	});
 
+  app.post('/signin', requireSignin, Authentication.signin);
 	app.post('/signup', Authentication.signup);
 }
+ 

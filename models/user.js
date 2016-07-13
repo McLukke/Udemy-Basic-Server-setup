@@ -32,6 +32,17 @@ userSchema.pre('save', function(next) {
 	});
 });
 
+// defining a method to be called elsewhere on this Schema
+userSchema.methods.comparePassword = function(candidatePassword, callback) {
+	// compare is premade fn in bcrypt
+	// this.password refers to user model, our hashed and salted password
+	bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+		if (err) return callback(err);
+
+		callback(null, isMatch);
+	});
+};
+
 // Create the model class
 // loads schema into mongoose
 // tells mongoose there is a new schema about users
